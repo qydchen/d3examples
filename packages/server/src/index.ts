@@ -1,22 +1,22 @@
-import express, { Request, Response, response } from 'express';
+import express, { Request, Response } from 'express';
+import morgan from 'morgan';
+import fetch from 'node-fetch';
 import { API_KEY } from '../__secret__/fred-api';
-import Fred from 'fred-api';
+
 import path from 'path';
 const app = express();
 const PORT = 8080;
-
-const fred = new Fred(API_KEY);
-
+app.use(morgan("combined"))
 app.set("port", process.env.PORT || PORT);
 
-app.get("/", async (req: Request, res: Response) => {
-    console.log('wtf');
+app.get("/", (req: Request, res: Response) => {
     res.send({ message: "hello" });
 })
 
 app.get("/fred", async (req: Request, res: Response) => {
-    await fred.getSeries({ series_id: "GNPCA" });
-    res.send(response.json());;
+    const response = await fetch(`https://api.stlouisfed.org/fred/category?category_id=125&api_key=${API_KEY}&file_type=json`);
+    const json = await response.json();
+    res.send(json);
 })
 
 app.listen(app.get("port"), () => {
