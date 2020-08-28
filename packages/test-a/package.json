@@ -1,0 +1,13 @@
+{
+  "name": "@d3-viz/test-a",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "yarn clean && tsc --build",
+    "watch": "tsc -w --build",
+    "test": "jest"
+  }
+}
